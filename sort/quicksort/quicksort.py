@@ -9,7 +9,7 @@ def swap(array, i, j):
     array[j] = temp
     return
     
-def quicksort_helper(array, low, high, r):
+def quicksort_helper(array, low, high):
     if low < high:
 	pivot_ind = high-1
         pivot = array[pivot_ind]
@@ -25,14 +25,14 @@ def quicksort_helper(array, low, high, r):
                 swap(array, i, j)
         array[high-1]=array[i]
         array[i]=pivot
-        sorted1 = quicksort_helper(array, low, i, r+1)
-        sorted2 = quicksort_helper(array, i+1, high, r+1)
+        sorted1 = quicksort_helper(array, low, i)
+        sorted2 = quicksort_helper(array, i+1, high)
         return sorted1 + [pivot] + sorted2
     else:
         return []
     
 def quicksort(array):
-    return quicksort_helper(array, 0, len(array), 0)
+    return quicksort_helper(array, 0, len(array))
 
 test = [21, 4, 1, 3, 9, 20, 25, 6, 21, 14]
 print quicksort(test)
