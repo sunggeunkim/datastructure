@@ -16,19 +16,27 @@ def question1(s, t):
     
     i = 0
     while True:
+        match = True
         for j in range(len(t)):
-            if s_dict[s[j]] != t_dict[t[j]]:
+            if t[j] not in s_dict or s_dict[t[j]] != t_dict[t[j]]:
+                match = False
                 break
-        if j == len(t)-1:
+        if match == True:
             return True
-        if i + len(t) < len(s):
-            break
+        if i + len(t) >= len(s):
+            return False
         else:
-            t_dict[t[i]] -= 1
-            t_dict[t[i + len(t)] += 1
+            s_dict[s[i]] -= 1
+            increment_count(s[i+len(t)], s_dict)
             i += 1
             
             
         
 
-question1("udacity", "adu")
+print question1("udacity", "adu")
+print question1("udacity", "yti")
+print question1("udacity", "dci")
+print question1("udacity", "a")
+print question1("udacity", "")
+print question1("udacity", "aic")
+print question1("udacity", "tyaucdi")
