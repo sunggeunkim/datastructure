@@ -1,4 +1,3 @@
-
 def increment_count(s, s_dict):
         if s in s_dict:
             s_dict[s] += 1
