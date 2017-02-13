@@ -5,6 +5,8 @@ def increment_count(s, s_dict):
             s_dict[s] = 1
 
 def question1(s, t):
+    if s == None or t == None:
+        return None
     if t == "":
         return True
     s_dict = {}
@@ -28,14 +30,3 @@ def question1(s, t):
             s_dict[s[i]] -= 1
             increment_count(s[i+len(t)], s_dict)
             i += 1
-            
-            
-        
-
-print question1("udacity", "adu")
-print question1("udacity", "yti")
-print question1("udacity", "dci")
-print question1("udacity", "a")
-print question1("udacity", "")
-print question1("udacity", "aic")
-print question1("udacity", "tyaucdi")
