@@ -1,0 +1,32 @@
+To find the minimum spanning tree, I used Kruskal's algorithm (https://en.wikipedia.org/wiki/Kruskal's_algorithm). This algorithm works this way:
+1. Get all the edges of the graph.
+2. Sort the edges. 
+3. Pick the smallest edge and check if it forms a cycle (using find-union algorithm) and if it does not, add it to the tree.
+4. repeat 3 until we run out of the edges.
+
+find and union algorithm works like this:
+1. given an edge, find the parents of the starting node and the ending node.
+2. if their parents are the same we found a loop.
+3. if their parents are not the same, we perform union step.
+    3a. In union step, we first find parents of the two nodes.
+    3b, set the parent of one node to the other node
+
+Sorting the edges takes O(ElogE) where E is the number of edges. Checking whether an edge forms a cycle or not takes O(logV) assuming the depth of tree is approximately logV, so for all the edges, O(ElogV). Therefore, overall the runtime should be O(ElogE + ElogV).
+
+I started from the graph implementation of the quiz (https://classroom.udacity.com/nanodegrees/nd009/parts/00913454013/modules/773670769775460/lessons/7114284829/concepts/79348548570923#) and modified it such a way that the get_adjacency_list function outputs the adjacency list in undirected graph.
+
+The test cases:
+graph = Graph()
+graph.insert_edge(2, 'A', 'B')
+graph.insert_edge(5, 'B', 'C')
+graph.insert_edge(4, 'B', 'D')
+graph.insert_edge(6, 'C', 'D')
+graph.insert_edge(3, 'A', 'C')
+adj_list = graph.get_adjacency_list()
+print question3(adj_list)
+
+# result of the above test case
+# {'A': [('B', 2), ('C', 3)], 'C': [('A', 3)], 'B': [('A', 2), ('D', 4)], 'D': [('B', 4)]}
+
+
+

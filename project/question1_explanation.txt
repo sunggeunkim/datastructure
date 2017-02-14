@@ -1,0 +1,15 @@
+To find the anagram of t in the substring of another string s, we can use a dictionary that saves the number of distict characters in t and the substring of s and see if the keys in the both dictionaries have the same value.
+For example, if s = 'udacity' and t = 'ad', the substring of s 'da' will have dictionary {'d':1, 'a':1} and t's dictionary will be {'a':1, 'd':1}. Both the dictionaries have the same values for each key. Since, in dictionary, we do not care about the order of the keys, we can just go through keys in one dictionary and see if the value of that key is the same as the value of the same key in another dictionary.
+Now, for this to work, we will have to first start by picking the first len(t) characters of s and check whether the substring is anagram of t as we slide the window of substring from beginning to the end of s as we keep the size of substring as len(t).
+This algorithm will give O(nm) runtime where n = len(s) and m = len(t) because we need to check approximately n substring and in each substring, we will approximately have m key/value pairs to compare. 
+To reduce runtime, we can stop comparing the two dictionaries once we found a non-matching charcter. In addition, we do not need to construct the dictionary again and again for the substring of s because as we slide the window of substring we can increase the counter for the added character and substract and reduce the counter for the removed character.
+The code should also check empty or None strings.
+The test case that I used to test my code is the following:
+print question1("udacity", "adu") #True
+print question1("udacity", "yti") #True
+print question1("udacity", "dci") #False
+print question1("udacity", "a") #True
+print question1("udacity", "") #True
+print question1("udacity", "aic") #True
+print question1("udacity", "tyaucdi") #True
+

@@ -1,0 +1,29 @@
+Finding least common ancestor.
+To find the least common ancestor in BST, we can start from the root and see if the root's data is in between the node1 and node2's data.
+This is because in BST (let's say node1 < node2), if node1 is smaller than the root, that means node1 is part of left subtree of the root and if node2 is larger than the root, that means node2 is right subtree of the root.
+If the above condition does not met, we can recusrively do the same check for the left child and right child of the root.
+If we meet a None node which means that we reached the end of the tree, it means that there is no least common ancestor.
+
+Since we are descending down from the root to the leaf nodes as we check, the runtime should be O(h) where h is approximately log(n). Now the worst case runtime should be O(n) because there is possibility that the tree is just linearly connected like a linked list.
+
+Test cases that I tried:
+print question4([[0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          4)
+#result:3
+print question4([[0, 1, 0, 0, 0],
+           [0, 0, 1, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          2)
+#result:1
+
+
