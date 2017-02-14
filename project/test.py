@@ -9,6 +9,8 @@ Created on Sun Feb 12 16:48:17 2017
 from question1 import question1
 from question2 import question2        
 from question3 import Graph, question3        
+from question4 import question4
+from question5 import question5, Node
 
 #test question1
 print question1("udacity", "adu")
@@ -35,3 +37,27 @@ graph.insert_edge(3, 'A', 'C')
 adj_list = graph.get_adjacency_list()
 print question3(adj_list)
 
+print question4([[0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          4)
+
+print question4([[0, 1, 0, 0, 0],
+           [0, 0, 1, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          2)
+
+head = Node(1)
+head.next = Node(2)
+head.next.next = Node(3)
+head.next.next.next = Node(4)
+head.next.next.next.next = Node(5)
+print question5(head, 3)
