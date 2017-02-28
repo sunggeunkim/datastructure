@@ -13,6 +13,8 @@ find and union algorithm works like this:
 
 Sorting the edges takes O(ElogE) where E is the number of edges. Checking whether an edge forms a cycle or not takes O(logV) assuming the depth of tree is approximately logV, so for all the edges, O(ElogV). Therefore, overall the runtime should be O(ElogE + ElogV).
 
+Space complexity: for every edge in the sorted edge list, we need to add the edges to a list and associated nodes to another list and create a dictionary out of it since the graph is dynamically updated for every edge. This gives us O(E + V) space complexity.
+
 I started from the graph implementation of the quiz (https://classroom.udacity.com/nanodegrees/nd009/parts/00913454013/modules/773670769775460/lessons/7114284829/concepts/79348548570923#) and modified it such a way that the get_adjacency_list function outputs the adjacency list in undirected graph.
 
 The test cases:

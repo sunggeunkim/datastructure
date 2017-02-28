@@ -3,6 +3,7 @@ For example, if s = 'udacity' and t = 'ad', the substring of s 'da' will have di
 Now, for this to work, we will have to first start by picking the first len(t) characters of s and check whether the substring is anagram of t as we slide the window of substring from beginning to the end of s as we keep the size of substring as len(t).
 This algorithm will give O(nm) runtime where n = len(s) and m = len(t) because we need to check approximately n substring and in each substring, we will approximately have m key/value pairs to compare. 
 To reduce runtime, we can stop comparing the two dictionaries once we found a non-matching charcter. In addition, we do not need to construct the dictionary again and again for the substring of s because as we slide the window of substring we can increase the counter for the added character and substract and reduce the counter for the removed character.
+The space complexity is O(n) because the dictionaries contain all the characters in the input string.
 The code should also check empty or None strings.
 The test case that I used to test my code is the following:
 print question1("udacity", "adu") #True

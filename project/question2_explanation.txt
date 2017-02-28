@@ -1,9 +1,10 @@
-To find the longest substring of input a,
+To find the longest palindrome substring of input a,
 1. we can use two pointers that points to the same character in a
-2. we move the two points to both directions (to the beginning and to the end) and see if the characters in the two pointers is the same or not and if they are the same all the way until either of the pointer reaches the end (or the beginning), then we find a palindrome substring of input a.
+2. we move the two pointers to both directions (to the beginning and to the end of the string) and see if the characters in the two pointers is the same or not and if they are the same all the way until either of the pointers reaches the end (or the beginning), then we find a palindrome substring of input a.
 2. We repeat the above procedure as we move the starting position of the two pointers from the beginning to the end of a.
 
 This algorithm should take O(n^2) because we need to start the two pointers ~n different positions of a and we need to check ~n/2 of characters.
+The space complexity is O(n) as we save the substring if it palindrome.
 
 The testing cases that I use test the code:
 print question2('abcbcbad') # abcbcba

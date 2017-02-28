@@ -1,6 +1,7 @@
-To find the node that is in m-th location from the end in a singly linked list, we can use two pointers. One pointer will traverse the tree m node before the other pointer so that the node that when the pre-running pointer reaches the end, the other will points to the m-th node from the end.
+To find the node that is in m-th location from the end in a singly linked list, we can use two pointers. One pointer will traverse the tree m node before the other pointer so that when the pre-running pointer reaches the end, the other will points to the m-th node from the end.
 
 The time complexity of the algorith is O(n-m) because the pointer has to travel n-m nodes.
+The space complexity of this algorithm is O(1) since we only need two pointers that takes constant space.
 
 Test case:
 head = Node(1)
