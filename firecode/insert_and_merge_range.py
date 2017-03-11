@@ -30,8 +30,7 @@ def insert_and_merge(input_range_list,new_range):
                input_range_list[i+1].lower_bound >= new_range.lower_bound:
                 new_input_range_list = input_range_list[:i+1] + [new_range] + input_range_list[i+1:]
     merged_list = [new_input_range_list[0]]
-    import pdb;pdb.set_trace()
-    for i in range(1,len(input_range_list)):
+    for i in range(1,len(new_input_range_list)):
         last_merged = merged_list[-1]
         not_merged_yet = new_input_range_list[i]
         if not_merged_yet.upper_bound > last_merged.upper_bound:
