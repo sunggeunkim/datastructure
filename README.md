@@ -1,2 +1,2 @@
 # datastructure
-collection of datastructure problem
+collection of datastructure and programming problems
