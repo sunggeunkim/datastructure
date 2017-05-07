@@ -7,6 +7,26 @@ class LinkedList(object):
     def __init__(self, head=None):
         self.head = head
 
+    @classmethod
+    def create_linkedlist_from_list(cls, l):
+        if l == None or len(l) == 0:
+            return cls(l)
+        head = Element(l[0])
+        ll = LinkedList(head)
+        for i in range(1,len(l)):
+            ll.append(Element(l[i]))
+        return cls(head)
+        
+    def print(self):
+        current = self.head
+        while current:
+            print(current.value, end="")
+            if current.next:
+                print(" -> ", end="")
+            else:
+                print(" -> None")
+            current = current.next
+
     def append(self, new_element):
         current = self.head
         if self.head:
