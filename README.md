@@ -7,15 +7,17 @@ The purpose of this project is to collect the coding problems that are useful to
 This project requires Python 3.5
 
 ## Folders
-* array: array related problems
+* array: array problems
+* bit: bit manipulation problems
 * dp: dynamic programming related problems
 * firecode: problems from firecode.io
-* graph: graph related problems
+* graph: graph problems
 * linkedlist: problems related to linked list
-* math: math related problems
-* project: problems from Udacity
-* sort: sorting related problems
-* tree: tree related problems
+* math: math problems
+* project: coding problems from Udacity
+* sort: sorting problems
+* stack: stack problems
+* tree: tree problems
 
 ## Run
 In a terminal or command window, navigate to the folder where the code is and type:
