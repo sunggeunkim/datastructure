@@ -7,6 +7,7 @@ dict:   {"abc", "acd", "bcd", "def", "a", "aba"}
 prefix: "a" -> "abc", "acd", "a", "aba"
 prefix: "b" -> "bcd"
 
+reference: http://www.byte-by-byte.com/autocomplete/
 '''
 
 # Trie node class
