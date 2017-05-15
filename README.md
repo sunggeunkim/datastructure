@@ -18,6 +18,7 @@ This project requires Python 3.5
 * sort: sorting problems
 * stack: stack problems
 * tree: tree problems
+* trie: trie problems
 
 ## Run
 In a terminal or command window, navigate to the folder where the code is and type:
