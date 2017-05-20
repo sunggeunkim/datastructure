@@ -1,3 +1,13 @@
+'''
+Given two integers, write a function to determine whether or not their binary representations differ by a single bit.
+
+e.g.
+gray(0, 1) = true
+gray(1, 2) = false
+
+reference: http://www.byte-by-byte.com/graycode/
+'''
+
 def isGray(a, b):
     if a == 0 and b == 0:
         return False
