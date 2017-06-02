@@ -10,8 +10,7 @@ city = [[-1, 5, 20],
         [-1, 1, -1]]
 the output should be nightRoute(city) = 15.
 
-city[i][j] equals the distance between the ith and the jth islands in miles, 
-or -1 if there is no bridge by which one can move from island i to island j.
+city[i][j] equals the distance between the ith and the jth islands in miles, or -1 if there is no bridge by which one can move from island i to island j.
 
 '''
 def nightRoute(city):
@@ -23,10 +22,10 @@ def nightRouteFinder(i, n, city, visited):
         return 0
     cost = []
     for j in range(n):
-        newvisited = set(visited)
         if j not in visited and i != j and city[i][j] != -1:
-            newvisited.add(j)
-            cost.append(city[i][j] + nightRouteFinder(j, n, city, newvisited))
+            visited.add(j)
+            cost.append(city[i][j] + nightRouteFinder(j, n, city, visited))
+            visited.remove(j)
     if len(cost) > 0:
         return min(cost)
     else:
