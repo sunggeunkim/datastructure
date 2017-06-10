@@ -64,21 +64,19 @@ def regularExpressionMatchingDP(s, p):
     dp[0][0] = True
 
     for idx, ch in enumerate(p):
-        if ch is '*':
+        if ch == '*':
             dp[0][idx+1] = dp[0][idx-1]
 
     for i, sl in enumerate(s):
         for j, pl in enumerate(p):
-            can_match = sl is pl or pl is '.'
-            if dp[i][j] and can_match:
+            if dp[i][j] and (sl == pl or pl == '.'):
                 dp[i+1][j+1] = dp[i][j]
-            elif pl is '*':
+            elif pl == '*':
                 dp[i+1][j+1] = dp[i+1][j-1]
-                if s[i] is p[j-1] or p[j-1] is '.':
-                    dp[i+1][j+1] = dp[i+1][j+1] or dp[i][j+1]              
-
-    return dp[-1][-1] 
-
+                if s[i] == p[j-1] or p[j-1] == '.':
+                    dp[i+1][j+1] = dp[i+1][j+1] or dp[i][j+1]
+                    
+    return dp[-1][-1]
         
 
 
