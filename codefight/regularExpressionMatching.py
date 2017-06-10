@@ -72,9 +72,10 @@ def regularExpressionMatchingDP(s, p):
             if dp[i][j] and (sl == pl or pl == '.'):
                 dp[i+1][j+1] = dp[i][j]
             elif pl == '*':
-                dp[i+1][j+1] = dp[i+1][j-1]
                 if s[i] == p[j-1] or p[j-1] == '.':
-                    dp[i+1][j+1] = dp[i+1][j+1] or dp[i][j+1]
+                    dp[i+1][j+1] = dp[i+1][j-1] or dp[i][j+1] or dp[i+1][j]
+                else:
+                    dp[i+1][j+1] = dp[i+1][j-1]
                     
     return dp[-1][-1]
         
