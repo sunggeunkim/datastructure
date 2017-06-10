@@ -1,3 +1,5 @@
+# Given a string ,return the longest substring that contains at most two distinct characters.
+
 def isAnyZero(d):
     for key in d:
         if d[key] == 0:
