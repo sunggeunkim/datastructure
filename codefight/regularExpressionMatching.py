@@ -28,8 +28,8 @@ def regularExpressionMatching(s, p):
     if len(p) == 0:
         return len(s) == 0
     
-    #special case
-    if len(p) == 1:
+    #case 1
+    if len(p) == 1 or p[1] != '*':
         #if the length of s is 0, return false
         if len(s) < 1:
             return False
@@ -37,15 +37,6 @@ def regularExpressionMatching(s, p):
         elif p[0] != '*' and s[0] != p[0] and p[0]!='.':
             return False
         #otherwise, compare the rest of the string of s and p.
-        else:
-            return regularExpressionMatching(s[1:], p[1:])
-        
-    #case 1: when the second char of p is not '*'
-    if p[1] != '*':
-        if len(s) < 1:
-            return False
-        if p[0] != s[0] and p[0] != '.':
-            return False
         else:
             return regularExpressionMatching(s[1:], p[1:])
         
@@ -65,6 +56,11 @@ def regularExpressionMatching(s, p):
             i += 1
             
         return False
+        
+
+
+            
+
         
 
 
