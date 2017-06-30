@@ -1,3 +1,6 @@
+"""
+ref: https://codefights.com/interview-practice/task/cAXEnPyzknC5zgd7x/description
+"""
 def climbingStaircase(n, k):
     if n == 0:
         return [[]]
