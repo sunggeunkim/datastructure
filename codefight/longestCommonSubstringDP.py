@@ -3,7 +3,6 @@ def longestCommonSubstring(s, t):
         return 1 if s in t else 0
     if len(t) == 1:
         return 1 if t in s else 0
-    l = 0
     dp = [[0 for _ in range(len(s))] for _ in range(len(t))]
     maxlen = 0
     for i in range(len(t)):
