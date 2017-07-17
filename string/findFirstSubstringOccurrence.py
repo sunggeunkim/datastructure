@@ -14,6 +14,8 @@ strstr(s, x) = 10.
 '''
 
 def findFirstSubstringOccurrence(haystack, needle):
+    #For the needle “AABAACAABAA”, 
+    #table is [0, 1, 0, 1, 2, 0, 1, 2, 3, 4, 5]
     if len(needle)==0:
         return haystack
     table = [0] * len(needle)
