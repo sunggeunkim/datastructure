@@ -43,5 +43,5 @@ def longestPath(fsystem):
         name = line[depth:]
         stack[depth] = len(name)
         if '.' in name:
-            ans = max(ans, sum(stack[:depth]) + depth + len(name) )
+            ans = max(ans, sum(stack[:depth+1]) + depth)
     return ans
