@@ -16,6 +16,28 @@ findSubstrings(words, parts) = ["Apple", "Me[lon]", "Or[a]nge", "Water[mel]on"].
 
 While "Watermelon" contains three substrings from the parts array, 
 "a", "mel", and "lon", "mel" is the longest substring that appears first in the string.
+
+Input/Output
+
+[time limit] 4000ms (py3)
+[input] array.string words
+
+An array of strings consisting only of uppercase and lowercase English letters.
+
+Guaranteed constraints:
+0 ≤ words.length ≤ 104,
+1 ≤ words[i].length ≤ 30.
+
+[input] array.string parts
+
+An array of strings consisting only of uppercase and lower English letters. Each string is no more than 5 characters in length.
+
+Guaranteed constraints:
+0 ≤ parts.length ≤ 105,
+1 ≤ parts[i].length ≤ 5,
+parts[i] ≠ parts[j].
+
+[output] array.string
 '''
 
 
