@@ -32,49 +32,16 @@ longestPath(fileSystem) = 24.
 The longest path is "user/documents/notes.txt", and it consists of 24 characters.
 
 """
-
-class Node:
-    def __init__(self, value, level = 0, children = None, text_length = None):
-        self.value = value
-        self.children = children
-        self.level = level
-        self.text_length = text_length
-        
-def longestPath(fileSystem):
-    fileSystem = fileSystem.split('\r')
-    root = Node(fileSystem[0], 0, None, len(fileSystem[0]))
-    stack = [root]
-    i = 1
-    max_length = 0
-    if "." in fileSystem[0]:
-        max_length = len(fileSystem[0])
-    while len(stack) > 0 and i < len(fileSystem):
-        name = fileSystem[i]
-        curr = stack[-1]
-        curr_level = curr.level
-        index = name.rfind('\t')
-        next_level = index + 1
-        if next_level <= curr_level:
-            stack.pop()
-            if len(stack) == 0 and next_level == 0:
-                if "." in name:
-                    max_length = max(max_length, len(name[index+1:]))
-                if i + 1 < len(fileSystem):
-                    root = Node(name,  0, None, len(name[index+1:]))
-                    stack.append(root)
-                    i += 1
-                else:
-                    return max_length
-        else:
-            next_node = Node(name[index+1:],\
-                             next_level, None,\
-                             curr.text_length + 1 + len(name[index+1:]))
-            if "." in name and next_node.text_length > max_length:
-                max_length = next_node.text_length
-            if curr.children == None:
-                curr.children = [next_node]
-            else:
-                curr.children.append(next_node)
-            stack.append(next_node)
-            i += 1
-    return max_length
+       
+def longestPath(fsystem):
+    stack = [0] * 100
+    ans = 0
+    for line in fsystem.split('\r'):
+        depth = 0
+        while depth < len(line) and line[depth] == '\t':
+            depth += 1
+        name = line[depth:]
+        stack[depth] = len(name)
+        if '.' in name:
+            ans = max(ans, sum(stack[:depth]) + depth + len(name) )
+    return ans
