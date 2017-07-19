@@ -34,7 +34,4 @@ def repeatedDNASequences(s):
             result.add(s10)
         else:
             sset.add(s10)
-    result = list(result)
-    result.sort()
-    return result
-
+    return sorted(list(result))
