@@ -35,7 +35,7 @@ class Autocomplete:
 
             # if the character is not in the children then add a node
             if s[i] not in curr.children:
-                curr.children[s[i]] = Node(s[:i+1])
+                curr.children[s[i]] = Node(s[i])
             curr = curr.children[s[i]]
 
             # for the last character, set the isWord flag
@@ -53,18 +53,19 @@ class Autocomplete:
                 return results
 
         # at the end of the prefix, find all child words
-        self.findAllChildWords(curr, results)
+        self.findAllChildWords(curr, results, pre)
         return results
 
     # recursively find all child words
-    def findAllChildWords(self, curr, results):
+    def findAllChildWords(self, curr, results, prefix):
         if curr.isWord:
-            results.append(curr.prefix)
+            results.append(prefix)
         for c in curr.children:
-            self.findAllChildWords(curr.children[c], results)
+            self.findAllChildWords(curr.children[c], results, prefix + c)
 
 ac = Autocomplete(["abc", "acd", "bcd", "def", "a", "aba"])
+
 print(ac.getWordForPrefix("a"))
+print(ac.getWordForPrefix("ab"))
 print(ac.getWordForPrefix("b"))
 print(ac.getWordForPrefix("d"))
-
