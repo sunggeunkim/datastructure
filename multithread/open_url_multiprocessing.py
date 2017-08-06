@@ -5,7 +5,7 @@ Created on Sat Aug 05 13:00:05 2017
 @author: Kim
 """
 
-import urllib2 
+import urllib.request 
 from multiprocessing.dummy import Pool as ThreadPool 
 
 urls = [
@@ -24,7 +24,8 @@ pool = ThreadPool(4)
 
 # open the urls in their own threads
 # and return the results
-results = pool.map(urllib2.urlopen, urls)
+results = pool.map(urllib.request.urlopen, urls)
+print(results)
 
 # close the pool and wait for the work to finish 
 pool.close() 
