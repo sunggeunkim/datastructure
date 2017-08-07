@@ -5,23 +5,21 @@ Created on Sun Aug 06 19:46:05 2017
 @author: Kim
 """
 
-from queue import Queue
+from collections import deque
 from threading import Thread, Lock, Condition
 import time
 
 class Producer(Thread):
 
-    def __init__(self, sq):
+    def __init__(self, sq, list_of_numbers):
         Thread.__init__(self)
         self.sq = sq
+        self.nums = list_of_numbers
 
     def run(self):
-        i = 0
-        while i <= 20:
+        for i in self.nums:
             self.sq.put(i)
             time.sleep(0.05)
-            i += 1
-        self.sq.cancel()
         
 class Consumer(Thread):
 
@@ -30,56 +28,52 @@ class Consumer(Thread):
         self.sq = sq
 
     def run(self):
-        i = 0
-        while i < 20:
+        while True:
             item = self.sq.get()
             print(item)
-            time.sleep(0.1)
-            i += 1
-        self.sq.cancel()
+            time.sleep(0.01)
         
 class SyncQ(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.q = Queue()
+        self.q = deque()
         self.cond = Condition()
         self.max_num_el = 10000
-        self.exitFlag = False
         
     def put(self, value):
         with self.cond:
-            while self.q.qsize() > self.max_num_el:
+            while len(self.q) > self.max_num_el:
                 self.cond.wait()
-            if self.exitFlag:
-                return
-            print("{} is putting item".format(self.getName()))
-            self.q.put(value)
-            if self.q.qsize() < self.max_num_el:
-                self.cond.notify() 
+            self.q.append(value)
+            if len(self.q) < self.max_num_el:
+                # notify consumer that item is in the queue
+                # so that it can be consumed. 
+                self.cond.notify()
 
     def get(self):
         with self.cond:
-            while self.q.empty():
-                print("{} is waiting...".format(self.getName()))
+            while len(self.q) == 0: # queue is empty. wait until item is in there.
                 self.cond.wait()
-            print("{} is getting item...".format(self.getName()))
-            item = self.q.get()
-            if not self.q.empty():
+            item = self.q.popleft()
+            if len(self.q) > 0: 
+                # queue is not empty.
+                # notify other thread waiting for the queue to be filled.
                 self.cond.notify()
         return item
-
-    def cancel(self):
-        with self.cond:
-            self.exitFlag = True
-            self.cond.notifyAll()
     
     def empty(self):
-        return self.q.empty()
+        return len(self.q) == 0
 
 sq = SyncQ()
-t1 = Producer(sq)
+t0 = Producer(sq, list(range(10)))
+t1 = Producer(sq, list(range(10,20)))
 t2 = Consumer(sq)
+t3 = Consumer(sq)
+t0.start()
 t1.start()
 t2.start()
+t3.start()
+t0.join()
 t1.join()
 t2.join()
+t3.join()
