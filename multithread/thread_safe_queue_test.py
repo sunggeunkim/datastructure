@@ -7,19 +7,23 @@ Created on Sun Aug 06 19:46:05 2017
 
 from collections import deque
 from threading import Thread, Lock, Condition
-import time
+import time, random
 
 class Producer(Thread):
 
-    def __init__(self, sq, list_of_numbers):
+    def __init__(self, sq):
         Thread.__init__(self)
         self.sq = sq
-        self.nums = list_of_numbers
+        self.nums = [random.randint(0,100) for _ in range(100)]
 
     def run(self):
-        for i in self.nums:
-            self.sq.put(i)
-            time.sleep(0.05)
+        for item in self.nums:
+            self.sq.put(item)
+            self.log(item)
+            time.sleep(0.1)
+
+    def log(self, item):
+        print("** {} produced {}.".format(self.getName(), item))
         
 class Consumer(Thread):
 
@@ -30,10 +34,14 @@ class Consumer(Thread):
     def run(self):
         while True:
             item = self.sq.get()
-            print(item)
-            time.sleep(0.01)
+            self.log(item)
+            time.sleep(0.1)
+
+    def log(self, item):
+        print("{} consumed {}.".format(self.getName(), item))
         
 class SyncQ(Thread):
+
     def __init__(self):
         Thread.__init__(self)
         self.q = deque()
@@ -65,15 +73,13 @@ class SyncQ(Thread):
         return len(self.q) == 0
 
 sq = SyncQ()
-t0 = Producer(sq, list(range(10)))
-t1 = Producer(sq, list(range(10,20)))
-t2 = Consumer(sq)
-t3 = Consumer(sq)
-t0.start()
-t1.start()
-t2.start()
-t3.start()
-t0.join()
-t1.join()
-t2.join()
-t3.join()
+Threads = []
+for i in range(5):
+    Threads.append(Producer(sq))
+for i in range(5):
+    Threads.append(Consumer(sq))
+
+for t in Threads:
+    t.start()
+for t in Threads:
+    t.join()
