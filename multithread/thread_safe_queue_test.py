@@ -5,47 +5,81 @@ Created on Sun Aug 06 19:46:05 2017
 @author: Kim
 """
 
-from Queue import Queue
-from threading import Thread, Lock
+from queue import Queue
+from threading import Thread, Lock, Condition
 import time
 
-def producer(sq):
-    i = 0
-    while i <= 10:
-        sq.put(i)
-        time.sleep(0.1)
-        i += 1
+class Producer(Thread):
+
+    def __init__(self, sq):
+        Thread.__init__(self)
+        self.sq = sq
+
+    def run(self):
+        i = 0
+        while i <= 20:
+            self.sq.put(i)
+            time.sleep(0.05)
+            i += 1
+        self.sq.cancel()
         
-def consumer(sq):
-    error = None
-    while not error and not sq.empty():
-        time.sleep(0.5)
-        print(sq.get())
+class Consumer(Thread):
+
+    def __init__(self, sq):
+        Thread.__init__(self)
+        self.sq = sq
+
+    def run(self):
+        i = 0
+        while i < 20:
+            item = self.sq.get()
+            print(item)
+            time.sleep(0.1)
+            i += 1
+        self.sq.cancel()
         
 class SyncQ(Thread):
     def __init__(self):
         Thread.__init__(self)
         self.q = Queue()
+        self.cond = Condition()
+        self.max_num_el = 10000
+        self.exitFlag = False
         
     def put(self, value):
-        self.q.put(value)
-        
+        with self.cond:
+            while self.q.qsize() > self.max_num_el:
+                self.cond.wait()
+            if self.exitFlag:
+                return
+            print("{} is putting item".format(self.getName()))
+            self.q.put(value)
+            if self.q.qsize() < self.max_num_el:
+                self.cond.notify() 
+
     def get(self):
-        if self.q.empty():
-            print("Nothing to get")
-            return None
-        else:
-            return self.q.get()
+        with self.cond:
+            while self.q.empty():
+                print("{} is waiting...".format(self.getName()))
+                self.cond.wait()
+            print("{} is getting item...".format(self.getName()))
+            item = self.q.get()
+            if not self.q.empty():
+                self.cond.notify()
+        return item
+
+    def cancel(self):
+        with self.cond:
+            self.exitFlag = True
+            self.cond.notifyAll()
     
     def empty(self):
         return self.q.empty()
 
 sq = SyncQ()
-t1 = Thread(target=producer, args=(sq,))
-t2 = Thread(target=consumer, args=(sq,))
+t1 = Producer(sq)
+t2 = Consumer(sq)
 t1.start()
 t2.start()
-while not sq.empty():
-    print(sq.get())
 t1.join()
 t2.join()
