@@ -14,7 +14,7 @@ class Request:
         self.next = None
 
 class HitCounter(Thread):
-    def __init__(self):
+    def __init__(self, delay):
         Thread.__init__(self)
         self.last_sec_count = 0
         self.last_min_count = 0
@@ -23,6 +23,7 @@ class HitCounter(Thread):
         self.sec_ago = None
         self.min_ago = None
         self.hour_ago = None
+        self.delay = delay
         self.lock = Lock()
         
     def update_sec_pointer(self, t):
@@ -88,15 +89,19 @@ class HitCounter(Thread):
             self.add_request(time.time())
     
     def run(self):
-        self.add_1000_request(0.001)
+        self.add_1000_request(self.delay)
         
-hc = HitCounter()
-hc1 = HitCounter()
+hc = HitCounter(0.001)
+hc1 = HitCounter(0.001)
 hc.start()
 hc1.start()
-hc1.join()
-hc.join()
+time.sleep(0.5)
 print(hc.get_last_sec_count())
 print(hc1.get_last_sec_count())
+hc1.join()
+hc.join()
 print('last min count for {} is {}'.format(hc.getName(), hc.get_last_min_count()))
 print('last_min_count for {} is {}'.format(hc1.getName(), hc1.get_last_min_count()))
+
+print(hc.get_last_sec_count())
+print(hc1.get_last_sec_count())
