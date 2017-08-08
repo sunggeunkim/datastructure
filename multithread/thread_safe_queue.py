@@ -7,17 +7,13 @@ def producer(syncq):
         item = read_from_network_socket()
         error = syncq.push(item)
 
-q.drain() # eventually drain
-return error
-
-def consumer(syncq)
+def consumer(syncq):
     error = None
-    while error == None
+    while error == None:
         item = syncq.pop()
         error = write_item_to_disk(item)
 
-q.cancel(error) # << we are going to write this << 
-return error
+    syncq.cancel(error) # << we are going to write this << 
 
 
 class SyncQ(object):
@@ -36,7 +32,7 @@ class SyncQ(object):
                 return self.error
             self.q.push(item) # this line by itself is unsafe, two threads could be concurrently accessing the queue.
             if len(self.q) < self.max_num_el:
-                self.cond.signal() # << t2 signals...wakes up t1...signal only wakes one waiter.
+                self.cond.notify() # << t2 signals...wakes up t1...signal only wakes one waiter.
         
     def pop(self):
         # I want to wait for data to come into the queue
@@ -45,7 +41,7 @@ class SyncQ(object):
                 self.cond.wait() # << waiting for data to arrive.
             item = self.q.pop() # this throws exception if queue is empty
             if len(self.q) > 0:
-                self.cond.signal()
+                self.cond.notify()
             return item
 
     def cancel(error):

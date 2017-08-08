@@ -77,7 +77,7 @@ class SyncQ(Thread):
 
 sq = SyncQ()
 Threads = []
-for i in range(5):
+for i in range(10):
     Threads.append(Producer(sq))
 for i in range(5):
     Threads.append(Consumer(sq))

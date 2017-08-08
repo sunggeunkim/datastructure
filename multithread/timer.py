@@ -5,49 +5,36 @@ class TimeException(Exception):
 	pass
 
 class Timer:
-	def __init__(t, init):
-		t.init = init
-		t.lock = Lock()
-		t.kill = False
+	def __init__(self, init):
+		self.init = init
+		self.lock = Lock()
+		self.kill = False
 
-	def timer_thread(t):
-		t.current = t.init
+	def timer_thread(self):
+		self.current = self.init
 		while True:
-			try:
-				t.lock.acquire()
-
-				if t.current<= 0: break
-				if t.kill: break
+			with self.lock:
+				if self.current<= 0: break
+				if self.kill: break
 				
-				t.current -= 1
-				print(t.current)
-			finally:
-				t.lock.release()			
+				self.current -= 1
+				print(self.current)
 			time.sleep(1)
 	
-	def reset(t):
-		try:
-			t.lock.acquire()
-			t.current = t.init
-		finally:
-			t.lock.release()
+	def reset(self):
+		with self.lock:
+			self.current = self.init
 	
-	def stop(t):
-		try:
-			t.lock.acquire()
-			t.kill = True
-		finally:
-			t.lock.release()
+	def stop(self):
+		with self.lock:
+			self.kill = True
 
-	def time(t):
-		try:
-			t.lock.acquire()
-			return t.current
-		finally:
-			t.lock.release()
+	def time(self):
+		with self.lock:
+			return self.current
 
-	def start(t):
-		Thread(target=t.timer_thread).start()
+	def start(self):
+		Thread(target=self.timer_thread).start()
 
 t = Timer(5)
 t.start()
