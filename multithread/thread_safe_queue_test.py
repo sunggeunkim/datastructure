@@ -14,13 +14,13 @@ class Producer(Thread):
     def __init__(self, sq):
         Thread.__init__(self)
         self.sq = sq
-        self.nums = [random.randint(0,100) for _ in range(100)]
 
     def run(self):
-        for item in self.nums:
+       while True: 
+            item = random.randint(0, 100)
             self.sq.put(item)
             self.log(item)
-            time.sleep(0.1)
+            time.sleep(0.001)
 
     def log(self, item):
         print("** {} produced {}.".format(self.getName(), item))
@@ -46,31 +46,34 @@ class SyncQ(Thread):
         Thread.__init__(self)
         self.q = deque()
         self.cond = Condition()
-        self.max_num_el = 10000
+        self.max_num_el = 100
         
     def put(self, value):
         with self.cond:
-            while len(self.q) > self.max_num_el:
+            while self.full():
                 self.cond.wait()
             self.q.append(value)
-            if len(self.q) < self.max_num_el:
-                # notify consumer that item is in the queue
-                # so that it can be consumed. 
+            if not self.empty():
+                # notify consumer that item is in the queue so that it can be consumed. 
                 self.cond.notify()
 
     def get(self):
         with self.cond:
-            while len(self.q) == 0: # queue is empty. wait until item is in there.
+            while self.empty():
+                # queue is empty. wait until the queue is populated.
                 self.cond.wait()
             item = self.q.popleft()
-            if len(self.q) > 0: 
-                # queue is not empty.
-                # notify other thread waiting for the queue to be filled.
+            print("{} item left in the queue".format(len(self.q)))
+            # notify producer to wake up to fill the queue
+            if not self.full():
                 self.cond.notify()
         return item
     
     def empty(self):
         return len(self.q) == 0
+
+    def full(self):
+        return len(self.q) >= self.max_num_el
 
 sq = SyncQ()
 Threads = []
