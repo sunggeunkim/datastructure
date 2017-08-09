@@ -4,13 +4,14 @@ import time
 class TimeException(Exception):
 	pass
 
-class Timer:
+class Timer(Thread):
 	def __init__(self, init):
+		Thread.__init__(self)
 		self.init = init
 		self.lock = Lock()
 		self.kill = False
 
-	def timer_thread(self):
+	def run(self):
 		self.current = self.init
 		while True:
 			with self.lock:
@@ -32,9 +33,6 @@ class Timer:
 	def time(self):
 		with self.lock:
 			return self.current
-
-	def start(self):
-		Thread(target=self.timer_thread).start()
 
 t = Timer(5)
 t.start()
