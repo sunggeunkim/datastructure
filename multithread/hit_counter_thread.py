@@ -27,35 +27,25 @@ class HitCounter(Thread):
         self.lock = Lock()
         
     def update_sec_pointer(self, t):
-        self.lock.acquire()
-        try:
+        with self.lock:
             while self.sec_ago and t - self.sec_ago.time > 1:
                 self.sec_ago = self.sec_ago.next
                 self.last_sec_count -= 1
-        finally:
-            self.lock.release()
             
     def update_min_pointer(self, t):        
-        self.lock.acquire()
-        try:
+        with self.lock:
             while self.min_ago and t - self.min_ago.time > 60:
                 self.min_ago = self.min_ago.next
                 self.last_min_count -= 1
-        finally:
-            self.lock.release()
             
     def update_hour_pointer(self, t):        
-        self.lock.acquire()
-        try:
+        with self.lock:
             while self.hour_ago and t - self.hour_ago.time > 3600:
                 self.hour_ago = self.hour_ago.next
                 self.last_hour_count -= 1
-        finally:
-            self.lock.release()
     
     def add_request(self, t):        
-        lock.acquire()
-        try:
+        with self.lock:
             self.last_sec_count += 1
             self.last_min_count += 1
             self.last_hour_count += 1
@@ -68,8 +58,6 @@ class HitCounter(Thread):
             else:            
                 self.request_list_tail.next = new_request
                 self.request_list_tail = new_request
-        finally:
-            lock.release()
             
     def get_last_hour_count(self):
         self.update_hour_pointer(time.time())
