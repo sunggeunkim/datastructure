@@ -15,7 +15,6 @@ queue = Queue()
 
 def get_parser(host, root, charset):
 
-    def parse():
         try:
             while True:
                 url = queue.get_nowait()
@@ -43,11 +42,10 @@ def get_parser(host, root, charset):
 
 if __name__ == '__main__':
     host, root, charset = sys.argv[1:]
-    parser = get_parser(host, root, charset)
     queue.put('http://%s%s' % (host, root))
     workers = []
     for i in range(5):
-        worker = Thread(target=parser)
+        worker = Thread(target=get_parser, args=(host, root, charset))
         worker.start()
         workers.append(worker)
     for worker in workers:
