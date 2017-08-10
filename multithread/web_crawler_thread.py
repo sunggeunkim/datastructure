@@ -38,8 +38,6 @@ def get_parser(host, root, charset):
         except Empty:
             pass
 
-    return parse
-
 if __name__ == '__main__':
     host, root, charset = sys.argv[1:]
     queue.put('http://%s%s' % (host, root))
