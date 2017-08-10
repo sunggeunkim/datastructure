@@ -34,7 +34,7 @@ def get_parser(host, root, charset):
                     if href not in visited:
                         visited.add(href)
                         queue.put(href)
-                        print href
+                        print(href)
         except Empty:
             pass
 
