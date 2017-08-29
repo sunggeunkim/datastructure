@@ -1,3 +1,4 @@
+//Reference: http://www.geeksforgeeks.org/sliding-window-maximum-maximum-of-all-subarrays-of-size-k/#disqus_thread
 #include <iostream>
 #include <deque>
  
