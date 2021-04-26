@@ -15,4 +15,6 @@ def find_number_occuring_odd(x):
         xor ^= i
     return xor
 
-print(find_number_occuring_odd([1, 2, 3, 2, 3, 1, 3]))
+assert(find_number_occuring_odd([1, 2, 3, 2, 3, 1, 3]) == 3)
+assert(find_number_occuring_odd([0]) == 0)
+assert(find_number_occuring_odd([1, 1]) == 0)
